@@ -1,6 +1,73 @@
-<div>
-  <input placeholder="Enter grocery items"/>
-  <button>
-    <span class="glyphicon glyphicon-ok"></span>
-  </button>
+<div class="container-fluid">
+  <h2>Grocery list manager</h2>
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+      <div class="input-group">
+        <input type="text" class="form-control" id="txtSearch" placeholder="Enter grocery items" [(ngModel)]="newTask"/>
+        <div class="input-group-btn">
+          <button class="btn btn-primary" type="button" (click)="onClick()">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-12 space"></div>
+    <div class="col-xs-12 col-md-4">
+      <h3>Grocery List</h3>
+      <p *ngIf="!tasks.length">No item in lists</p>
+      <p *ngIf="errorMsg" class="error">{{errorMsg}}</p>
+      <ul class="list-group">
+        <li *ngFor="let task of tasks" class="list-group-item">
+          <div class="row">
+            
+            <div class="col-md-8">
+              <span>{{task.name}} </span>
+            </div>
+            <div class="col-md-1">
+              <button type="button" class="btn btn-primary floatright" data-toggle="modal" data-target="#editModal" (click)="getEditName(task)">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </div>
+            <div class="col-md-1">
+              <button type="button" class="btn btn-primary floatright" (click)="deleteTask(task)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
+            <div class="col-md-1">
+              <button type="button" class="btn btn-primary floatright" (click)="checkDone(task)">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <button class="btn btn-primary" (click)="clearGroceryList()" *ngIf="tasks.length">Clear</button>
+
+      <!-- Modal -->
+      <div class="modal" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit grocery item</h5>
+            </div>
+            <div class="modal-body">
+              <input [(ngModel)]="editTaskName"/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="editItem()">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <h3>Complete list</h3>
+      <p *ngIf="!doneList.length">No item in lists</p>
+      <ul class="list-group">
+        <li *ngFor="let task of doneList" class="list-group-item">{{task.name}}</li>
+      </ul>
+      <button class="btn btn-primary" (click)="clearDoneList()" *ngIf="doneList.length">Clear</button>
+    </div>
+  </div>
 </div>
